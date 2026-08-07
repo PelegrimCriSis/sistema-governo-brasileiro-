@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.I.P. — Branch Intelligence Portal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="assets/images/outrolado.webp">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+
+  <div class="bg-layer bg-grid"></div>
+  <div class="bg-layer bg-noise"></div>
+  <div class="bg-layer bg-scanner"></div>
+  <div class="bg-layer bg-vignette"></div>
+
+  <div class="bg-silhouettes">
+    <div class="silhouette silhouette-1"></div>
+    <div class="silhouette silhouette-2"></div>
+    <div class="silhouette silhouette-3"></div>
+  </div>
+
+  <div class="digital-particles" id="particles"></div>
+
+  <div class="tactical-overlay">
+    <span class="coord coord-1">CASO Nº ██████</span>
+    <span class="coord coord-2">UPLINK: ATIVO</span>
+    <span class="coord coord-3">SETOR ANÔMALO // CONTIDO</span>
+    <span class="coord coord-4">FREQ: 000.666 MHz</span>
+    <span class="coord coord-5">CONTENÇÃO: 99.2%</span>
+    <div class="radar-ring"></div>
+  </div>
+
+  <main class="login-wrapper">
+    <section class="login-box" id="loginBox">
+
+      <header class="login-header">
+        <div class="emblem" aria-hidden="true">
+          <div class="emblem-star"><img src="assets/images/outrolado.webp"></div>
+        </div>
+        <h1 class="login-title">BRANCH — DIVISÃO DE FENÔMENOS ANÔMALOS</h1>
+        <h2 class="login-subtitle">B.I.P. // BRANCH INTELLIGENCE PORTAL</h2>
+        <div class="classification-tag">CLASSIFICAÇÃO: <span>RESTRITO</span></div>
+
+        <div class="status-line">
+          <div class="status-item">
+            <span class="status-dot"></span>
+            <span>ONLINE</span>
+          </div>
+          <div class="status-item" id="clock">00:00:00</div>
+        </div>
+      </header>
+
+      <form id="loginForm" class="login-form" autocomplete="off">
+        <div class="field-group">
+          <label for="usuario">USUÁRIO</label>
+          <input type="text" id="usuario" name="usuario" placeholder="ID DE AGENTE" required>
+        </div>
+
+        <div class="field-group">
+          <label for="senha">SENHA</label>
+          <input type="password" id="senha" name="senha" placeholder="••••••••••" required>
+        </div>
+
+        <div class="login-extra">
+          <label>
+            <input type="checkbox" id="lembrarUsuario">
+            LEMBRAR USUÁRIO
+          </label>
+          <button type="button" class="link-esqueci" id="btnEsqueciSenha">ESQUECI MINHA SENHA</button>
+        </div>
+
+        <button type="submit" class="btn-access" id="btnAccess">
+          <span class="btn-text">ACESSAR SISTEMA</span>
+          <span class="btn-glow"></span>
+        </button>
+
+        <p class="feedback-msg feedback-error" id="errorMsg">ACESSO NEGADO — Credenciais inválidas</p>
+
+        <div class="verify-block" id="verifyBlock">
+          <p class="feedback-msg feedback-success">CREDENCIAIS VERIFICADAS</p>
+          <div class="loading-bar-track">
+            <div class="loading-bar-fill" id="loadingFill"></div>
+          </div>
+          <ul class="verify-log" id="verifyLog"></ul>
+        </div>
+      </form>
+
+      <footer class="login-footer">
+        <p>ACESSO NÃO AUTORIZADO É CRIME PREVISTO EM LEI — TODAS AS SESSÕES SÃO MONITORADAS</p>
+      </footer>
+    </section>
+  </main>
+
+  <div class="alert-flash" id="alertFlash"></div>
+
+  <script src="js/musica.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

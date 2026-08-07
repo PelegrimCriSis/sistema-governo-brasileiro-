@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.I.P. — Portal do Agente</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- PDF.js (visualização de PDF, somente leitura) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body class="panel-body">
+
+  <header class="panel-header">
+    <div class="panel-header-title">BRANCH <span>INTELLIGENCE PORTAL</span></div>
+    <div class="panel-header-info">
+      <div class="agent-name">AGENTE: <strong id="agentName">—</strong></div>
+      <div class="access-level" id="agentLevel">—</div>
+      <div class="online-tag"><span class="status-dot"></span> ONLINE</div>
+      <button class="btn-icon perigo" id="btnLogout" title="Sair">⏻</button>
+    </div>
+  </header>
+
+  <nav class="panel-nav">
+    <button class="nav-btn active" data-target="dashboard">Dashboard</button>
+    <button class="nav-btn" data-target="casos">Casos</button>
+    <button class="nav-btn" data-target="documentos">Documentos</button>
+    <button class="nav-btn" data-target="banco">Banco de Dados</button>
+    <button class="nav-btn" data-target="mensagens">Mensagens</button>
+    <button class="nav-btn" data-target="downloads">Downloads</button>
+    <button class="nav-btn" data-target="perfil">Perfil</button>
+  </nav>
+
+  <main class="panel-main">
+
+    <!-- DASHBOARD -->
+    <section class="tab-panel active" id="painel-dashboard">
+      <h2 class="section-title">DASHBOARD OPERACIONAL</h2>
+      <div class="stats-grid" id="dashboardStats">
+        <div class="stat-card"><div class="stat-num">—</div><div class="stat-label">CASOS VISÍVEIS</div></div>
+        <div class="stat-card"><div class="stat-num">—</div><div class="stat-label">DOCUMENTOS PUBLICADOS</div></div>
+        <div class="stat-card"><div class="stat-num">—</div><div class="stat-label">MENSAGENS NÃO LIDAS</div></div>
+      </div>
+    </section>
+
+    <!-- CASOS -->
+    <section class="tab-panel" id="painel-casos">
+      <h2 class="section-title">CASOS</h2>
+      <div class="toolbar">
+        <input type="text" class="toolbar-search" id="buscaCasos" placeholder="Pesquisar por título, código ou descrição...">
+      </div>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Código</th><th>Título</th><th>Categoria</th><th>Status</th><th>Nível</th><th>Responsável</th><th class="col-acoes">Ações</th></tr></thead>
+          <tbody id="tabelaCasos"><tr><td colspan="7" class="tabela-vazia">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DOCUMENTOS -->
+    <section class="tab-panel" id="painel-documentos">
+      <h2 class="section-title">DOCUMENTOS</h2>
+      <div class="toolbar">
+        <input type="text" class="toolbar-search" id="buscaDocumentos" placeholder="Pesquisar por título, código ou autor...">
+        <select id="filtroCategoriaDoc"><option value="">Todas categorias</option></select>
+        <select id="filtroClassificacao">
+          <option value="">Toda classificação</option>
+          <option value="1">Nível I</option>
+          <option value="2">Nível II</option>
+          <option value="3">Nível III</option>
+          <option value="4">Nível IV</option>
+          <option value="5">Ultrassecreto</option>
+        </select>
+      </div>
+      <div class="doc-list" id="listaDocumentos"></div>
+    </section>
+
+    <!-- BANCO DE DADOS (busca unificada) -->
+    <section class="tab-panel" id="painel-banco">
+      <h2 class="section-title">BANCO DE DADOS CLASSIFICADO</h2>
+      <div class="toolbar">
+        <input type="text" class="toolbar-search" id="buscaBanco" placeholder="Buscar em casos e documentos por qualquer termo...">
+        <button class="btn-primario" id="btnBuscarBanco">Consultar</button>
+      </div>
+      <div id="resultadosBanco"><p class="tabela-vazia">Digite um termo e clique em Consultar.</p></div>
+    </section>
+
+    <!-- MENSAGENS -->
+    <section class="tab-panel" id="painel-mensagens">
+      <h2 class="section-title">MENSAGENS INTERNAS</h2>
+      <div class="doc-list" id="listaMensagens"></div>
+    </section>
+
+    <!-- DOWNLOADS -->
+    <section class="tab-panel" id="painel-downloads">
+      <h2 class="section-title">ARQUIVOS PARA DOWNLOAD</h2>
+      <div class="doc-list" id="listaDownloads"></div>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="tab-panel" id="painel-perfil">
+      <h2 class="section-title">MEU PERFIL</h2>
+      <div class="dossier-card" style="max-width:520px; border-color: var(--verde-militar); box-shadow:none;">
+        <div id="perfilConteudo">Carregando...</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal de visualização de documento -->
+  <div class="modal-overlay" id="modalDocumento">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <span class="modal-title" id="modalDocTitulo">DOCUMENTO</span>
+        <button class="modal-close" id="modalDocFechar">✕</button>
+      </div>
+      <div id="modalDocCorpo"></div>
+    </div>
+  </div>
+
+  <footer class="panel-footer">
+    <p>B.I.P. © BRANCH — TODOS OS DIREITOS RESERVADOS — SESSÃO MONITORADA E REGISTRADA</p>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/musica.js"></script>
+  <script src="js/portal.js"></script>
+</body>
+</html>

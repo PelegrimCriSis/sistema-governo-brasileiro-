@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B.I.P. — Painel Administrativo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Quill.js (editor de texto rico) -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.min.js"></script>
+</head>
+<body class="panel-body">
+
+  <header class="panel-header">
+    <div class="panel-header-title">BRANCH <span>PAINEL ADMINISTRATIVO</span></div>
+    <div class="panel-header-info">
+      <div class="agent-name">MESTRE: <strong id="adminName">—</strong></div>
+      <div class="online-tag"><span class="status-dot"></span> ONLINE</div>
+      <button class="btn-icon perigo" id="btnLogout" title="Sair">⏻</button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-title">GERENCIAMENTO</div>
+      <button class="admin-menu-btn active" data-target="dashboard">📊 Dashboard</button>
+      <button class="admin-menu-btn" data-target="agentes">🕵 Agentes</button>
+      <button class="admin-menu-btn" data-target="casos">🗂 Casos</button>
+      <button class="admin-menu-btn" data-target="documentos">📄 Documentos</button>
+      <button class="admin-menu-btn" data-target="categorias">🏷 Categorias</button>
+      <button class="admin-menu-btn" data-target="tags"># Tags</button>
+      <button class="admin-menu-btn" data-target="musicas">🎵 Músicas</button>
+      <button class="admin-menu-btn" data-target="mensagens">✉ Mensagens</button>
+      <button class="admin-menu-btn" data-target="logs">🧾 Logs</button>
+      <button class="admin-menu-btn" data-target="backup">💾 Backup</button>
+      <button class="admin-menu-btn" data-target="configuracoes">⚙ Configurações</button>
+    </aside>
+
+    <main class="admin-content">
+
+      <!-- DASHBOARD -->
+      <section class="tab-panel active" id="painel-dashboard">
+        <h2 class="section-title">VISÃO GERAL</h2>
+        <div class="stats-grid" id="statsAdmin">
+          <div class="stat-card"><div class="stat-num">—</div><div class="stat-label">AGENTES CADASTRADOS</div></div>
+          <div class="stat-card"><div class="stat-num">—</div><div class="stat-label">CASOS</div></div>
+          <div class="stat-card"><div class="stat-num">—</div><div class="stat-label">DOCUMENTOS</div></div>
+          <div class="stat-card"><div class="stat-num">—</div><div class="stat-label">EVENTOS NO LOG (24H)</div></div>
+        </div>
+      </section>
+
+      <!-- AGENTES -->
+      <section class="tab-panel" id="painel-agentes">
+        <h2 class="section-title">AGENTES (JOGADORES)</h2>
+        <div class="toolbar">
+          <button class="btn-primario" id="btnNovoAgente">+ Novo Agente</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Nome</th><th>Codinome</th><th>Usuário</th><th>Cargo</th><th>Nível</th><th>Status</th><th>Login ativo</th><th class="col-acoes">Ações</th></tr></thead>
+            <tbody id="tabelaAgentes"><tr><td colspan="8" class="tabela-vazia">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CASOS -->
+      <section class="tab-panel" id="painel-casos">
+        <h2 class="section-title">CASOS</h2>
+        <div class="toolbar">
+          <button class="btn-primario" id="btnNovoCaso">+ Novo Caso</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Código</th><th>Título</th><th>Categoria</th><th>Responsável</th><th>Status</th><th>Nível</th><th class="col-acoes">Ações</th></tr></thead>
+            <tbody id="tabelaCasos"><tr><td colspan="7" class="tabela-vazia">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- DOCUMENTOS -->
+      <section class="tab-panel" id="painel-documentos">
+        <h2 class="section-title">DOCUMENTOS</h2>
+        <div class="toolbar">
+          <button class="btn-primario" id="btnNovoDocUpload">+ Novo (Upload)</button>
+          <button class="btn-secundario" id="btnNovoDocEditor">+ Novo (Editor Rico)</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Código</th><th>Título</th><th>Tipo</th><th>Nível</th><th>Publicado</th><th>Oculto</th><th>Download</th><th class="col-acoes">Ações</th></tr></thead>
+            <tbody id="tabelaDocumentos"><tr><td colspan="8" class="tabela-vazia">Carregando...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CATEGORIAS -->
+      <section class="tab-panel" id="painel-categorias">
+        <h2 class="section-title">CATEGORIAS</h2>
+        <div class="toolbar">
+          <input type="text" class="toolbar-search" id="novaCategoriaInput" placeholder="Nome da nova categoria">
+          <button class="btn-primario" id="btnNovaCategoria">Adicionar</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table"><thead><tr><th>Nome</th><th class="col-acoes">Ações</th></tr></thead>
+          <tbody id="tabelaCategorias"><tr><td colspan="2" class="tabela-vazia">Carregando...</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <!-- TAGS -->
+      <section class="tab-panel" id="painel-tags">
+        <h2 class="section-title">TAGS</h2>
+        <div class="toolbar">
+          <input type="text" class="toolbar-search" id="novaTagInput" placeholder="Nome da nova tag">
+          <button class="btn-primario" id="btnNovaTag">Adicionar</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table"><thead><tr><th>Nome</th><th class="col-acoes">Ações</th></tr></thead>
+          <tbody id="tabelaTags"><tr><td colspan="2" class="tabela-vazia">Carregando...</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <!-- MÚSICAS -->
+      <section class="tab-panel" id="painel-musicas">
+        <h2 class="section-title">SISTEMA DE MÚSICAS</h2>
+        <div class="form-field full" style="max-width:520px; margin-bottom:18px;">
+          <label>Nome (opcional — usa o nome do arquivo se vazio)</label>
+          <input type="text" id="novaMusicaNome" placeholder="Ex.: Tema principal">
+          <div class="dropzone" id="dropzoneMusica" style="margin-top:10px;">
+            <input type="file" id="inputNovaMusica" accept=".mp3,.wav,.ogg">
+            <span>Clique ou arraste um arquivo de áudio (.mp3, .wav, .ogg)</span>
+            <div class="dropzone-filename" id="nomeArquivoMusica"></div>
+          </div>
+          <button type="button" class="btn-primario" id="btnEnviarMusica" style="margin-top:12px;">+ Adicionar música</button>
+        </div>
+        <div id="listaMusicasAdmin"><p class="tabela-vazia">Carregando...</p></div>
+      </section>
+
+      <!-- MENSAGENS -->
+      <section class="tab-panel" id="painel-mensagens">
+        <h2 class="section-title">MENSAGENS INTERNAS</h2>
+        <div class="toolbar">
+          <button class="btn-primario" id="btnNovaMensagem">+ Nova Mensagem</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table"><thead><tr><th>Destinatário</th><th>Assunto</th><th>Nível</th><th>Lida</th><th>Data</th><th class="col-acoes">Ações</th></tr></thead>
+          <tbody id="tabelaMensagens"><tr><td colspan="6" class="tabela-vazia">Carregando...</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <!-- LOGS -->
+      <section class="tab-panel" id="painel-logs">
+        <h2 class="section-title">LOGS DE AUDITORIA</h2>
+        <div class="toolbar">
+          <select id="filtroLogTipo">
+            <option value="">Todos os tipos</option>
+            <option value="LOGIN">LOGIN</option>
+            <option value="LOGIN_FALHO">LOGIN_FALHO</option>
+            <option value="LOGOUT">LOGOUT</option>
+            <option value="DOCUMENTO_VISUALIZADO">DOCUMENTO_VISUALIZADO</option>
+            <option value="DOWNLOAD">DOWNLOAD</option>
+            <option value="DOCUMENTO_CRIADO">DOCUMENTO_CRIADO</option>
+            <option value="DOCUMENTO_EDITADO">DOCUMENTO_EDITADO</option>
+            <option value="DOCUMENTO_REMOVIDO">DOCUMENTO_REMOVIDO</option>
+            <option value="MUSICA_ADICIONADA">MUSICA_ADICIONADA</option>
+            <option value="MUSICA_EDITADA">MUSICA_EDITADA</option>
+            <option value="MUSICA_REMOVIDA">MUSICA_REMOVIDA</option>
+          </select>
+          <input type="text" class="toolbar-search" id="filtroLogUsuario" placeholder="Filtrar por usuário...">
+          <button class="btn-secundario" id="btnFiltrarLogs">Filtrar</button>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table"><thead><tr><th>Data/Hora</th><th>Usuário</th><th>Ação</th><th>Detalhe</th><th>IP</th></tr></thead>
+          <tbody id="tabelaLogs"><tr><td colspan="5" class="tabela-vazia">Carregando...</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <!-- BACKUP -->
+      <section class="tab-panel" id="painel-backup">
+        <h2 class="section-title">BACKUP DO BANCO DE DADOS</h2>
+        <div class="form-field full" style="max-width:480px;">
+          <p class="hint" style="margin-bottom:14px;">Exporte o banco de dados completo (.sqlite) ou importe um backup anterior para restaurar o sistema.</p>
+          <button class="btn-primario" id="btnExportarBackup" style="margin-bottom:20px;">⬇ Exportar Backup</button>
+          <label>IMPORTAR BACKUP (.sqlite)</label>
+          <div class="dropzone" id="dropzoneBackup">
+            <input type="file" id="inputBackup" accept=".sqlite">
+            <span>Clique ou arraste o arquivo .sqlite aqui</span>
+            <div class="dropzone-filename" id="nomeArquivoBackup"></div>
+          </div>
+          <button class="btn-perigo" id="btnImportarBackup" style="margin-top:14px;">⬆ Importar Backup (substitui o banco atual)</button>
+        </div>
+      </section>
+
+      <!-- CONFIGURAÇÕES -->
+      <section class="tab-panel" id="painel-configuracoes">
+        <h2 class="section-title">CONFIGURAÇÕES</h2>
+        <form id="formConfig" class="form-grid" style="max-width:640px;">
+          <div class="form-field">
+            <label>Nome da organização</label>
+            <input type="text" id="cfgNomeOrg">
+          </div>
+          <div class="form-field">
+            <label>Tema</label>
+            <select id="cfgTema"><option value="escuro">Escuro</option><option value="claro">Claro (não implementado)</option></select>
+          </div>
+          <div class="form-field">
+            <label>Idioma</label>
+            <select id="cfgIdioma"><option value="pt-BR">Português (Brasil)</option><option value="en-US">English</option></select>
+          </div>
+          <div class="form-field">
+            <label>Volume padrão (%)</label>
+            <input type="number" id="cfgVolume" min="0" max="100">
+          </div>
+          <div class="form-field full">
+            <label>URL do logo</label>
+            <input type="text" id="cfgLogo" placeholder="/uploads/imagens/logo.png">
+          </div>
+          <div class="form-field full">
+            <label>URL da imagem de fundo</label>
+            <input type="text" id="cfgFundo" placeholder="/uploads/imagens/fundo.jpg">
+          </div>
+
+          <div class="form-field full" style="border-top:1px solid rgba(255,255,255,0.06); padding-top:16px; margin-top:6px;">
+            <label style="color:var(--branco-gelo); font-size:13px;">🎵 MÚSICA INICIAL DO SISTEMA</label>
+          </div>
+          <div class="form-field">
+            <label>Música inicial</label>
+            <select id="cfgMusicaInicial"><option value="">— Nenhuma —</option></select>
+          </div>
+          <div class="form-field">
+            <label class="form-checkbox" style="margin-top:28px;"><input type="checkbox" id="cfgMusicaAtiva"> Tocar automaticamente (autoplay)</label>
+          </div>
+          <div class="form-field">
+            <label class="form-checkbox" style="margin-top:28px;"><input type="checkbox" id="cfgMusicaLoop"> Repetir em loop</label>
+          </div>
+          <div class="form-field">
+            <label>Fade suave (ms)</label>
+            <input type="number" id="cfgMusicaFade" min="0" max="10000" step="100">
+          </div>
+          <div class="form-field full">
+            <label>Telas onde a música principal toca</label>
+            <div style="display:flex; gap:18px; margin-top:4px;">
+              <label class="form-checkbox"><input type="checkbox" id="cfgMusicaTelaLogin"> Tela de login</label>
+              <label class="form-checkbox"><input type="checkbox" id="cfgMusicaTelaPortal"> Portal do agente</label>
+            </div>
+            <p class="hint" style="margin-top:6px;">O volume padrão é o campo "Volume padrão (%)" acima. Cada agente ainda pode ajustar o próprio volume ou desligar a música pelo controle flutuante.</p>
+          </div>
+
+          <div class="form-field full form-actions">
+            <button type="submit" class="btn-primario">Salvar Configurações</button>
+          </div>
+        </form>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL GENÉRICO -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-box" id="modalBox">
+      <div class="modal-header">
+        <span class="modal-title" id="modalTitulo">TÍTULO</span>
+        <button class="modal-close" id="modalFechar">✕</button>
+      </div>
+      <div id="modalCorpo"></div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

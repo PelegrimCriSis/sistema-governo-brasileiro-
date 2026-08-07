@@ -1,0 +1,30 @@
+# =========================================================================
+# B.I.P. — configuração de deploy no Render (Blueprint)
+# https://render.com/docs/blueprint-spec
+#
+# Sobe apenas o serviço web (Node/Express). O banco de dados é o Postgres
+# do Supabase — configure DATABASE_URL manualmente no painel do Render
+# (Environment) ou substitua o "sync: false" abaixo por um valor fixo.
+# =========================================================================
+
+services:
+  - type: web
+    name: bip-branch-intelligence-portal
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+    disk:
+      name: bip-uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
